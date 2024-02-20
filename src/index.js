@@ -8,12 +8,11 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 
 // HTTP logger
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 
 // Template engine
 app.engine('hbs', engine({
     extname: '.hbs'
-
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources\\views'));
@@ -24,6 +23,11 @@ app.get('/', (req, res) => {
 
 app.get('/news', (req, res) => {
     res.render(`news`);
+})
+
+app.get('/search', (req, res) => {
+    console.log(req.query.q);
+    res.render(`search`);
 })
 
 app.listen(port, () => {
