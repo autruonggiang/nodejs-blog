@@ -4,7 +4,7 @@ const path = require('path');
 const { engine } = require("express-handlebars");
 const port = 3000;
 const app = express();
-const routes = require('./routes');
+const route = require('./routes');
 
 //http logger morgan 
 app.use(morgan('combined'))
@@ -19,7 +19,7 @@ app.set('views', path.join(__dirname, '/resources/views'));
 // Home, search, contact
 
 //Route init       
-routes(app);
+route(app);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
