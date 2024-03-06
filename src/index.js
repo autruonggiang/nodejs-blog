@@ -1,36 +1,26 @@
-const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 const { engine } = require("express-handlebars");
-const app = express();
 const port = 3000;
+const app = express();
+const routes = require('./routes');
 
-const route = require('./routes');
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(express.urlencoded({
-    extended: true
-}));
+//http logger morgan 
+app.use(morgan('combined'))
+//urlencoded + json
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+//template engine
+app.engine(".hbs", engine({ extname: '.hbs' }));
+app.set("view engine", ".hbs");
+app.set('views', path.join(__dirname, '/resources/views'));
 
-// XMLHttpRequest, fetch, axios, ...
+// Home, search, contact
 
-// HTTP logger
-// app.use(morgan('combined'));
-
-// Template engine
-app.engine('hbs', engine({
-    extname: '.hbs'
-}));
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources\\views'));
-
-// Home, search, contact, news, ...
-
-// Route init
-route(app);
+//Route init       
+routes(app);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example app listening at http://localhost:${port}`)
 })
